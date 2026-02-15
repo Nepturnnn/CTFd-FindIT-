@@ -1,0 +1,461 @@
+<style>
+  /* --- FIX 1: MELEBARKAN LAYOUT MODAL --- */
+  /* Di layar PC/Laptop (>= 992px), paksa modal jadi 900px */
+  @media (min-width: 992px) {
+      .modal-dialog {
+          max-width: 900px !important; 
+          width: 900px !important;
+      }
+  }
+  /* Di layar tablet (>= 768px), paksa jadi 700px */
+  @media (min-width: 768px) and (max-width: 991px) {
+      .modal-dialog {
+          max-width: 700px !important;
+          width: 700px !important;
+      }
+  }
+
+  /* --- STYLING KONTEN --- */
+  /* 1. Modal Box Style */
+  .modal-content {
+      background-color: #141414 !important; /* Background gelap total */
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      border-radius: 15px !important;
+      box-shadow: 0 0 30px rgba(0,0,0,0.8) !important;
+      color: white;
+  }
+
+  /* 2. Header & Tabs */
+  .modal-body {
+      padding: 0 !important;
+  }
+  
+  .modal-header-custom {
+      padding: 20px 30px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.02);
+  }
+
+  .nav-tabs {
+      border-bottom: none !important;
+      margin-top: 10px;
+      justify-content: center; /* Tab di tengah */
+      flex-wrap: wrap; /* Agar tab turun jika layar sempit */
+  }
+
+  .nav-tabs .nav-item {
+      margin-bottom: 5px;
+  }
+
+  .nav-tabs .nav-link {
+      color: #888 !important;
+      border: none !important;
+      background: transparent !important;
+      font-weight: bold;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      padding: 10px 15px;
+      transition: all 0.2s;
+      white-space: nowrap;
+  }
+
+  .nav-tabs .nav-link:hover {
+      color: #ccc !important;
+  }
+
+  .nav-tabs .nav-link.active {
+      color: #fff !important;
+      border-bottom: 2px solid #0d6efd !important; /* Garis biru di bawah aktif */
+  }
+
+  /* 3. Challenge Content */
+  .challenge-content-box {
+      padding: 30px;
+  }
+
+  .challenge-name {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 5px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      word-wrap: break-word; /* Jaga-jaga nama challenge panjang */
+  }
+
+  .challenge-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #0d6efd; /* Warna biru CTFd */
+      margin-bottom: 20px;
+  }
+
+  /* --- FIX 2: MENCEGAH TEKS DESKRIPSI KELUAR LAYOUT --- */
+  .challenge-desc {
+      font-size: 1rem;
+      color: #ddd;
+      line-height: 1.6;
+      background: rgba(255,255,255,0.03);
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 20px;
+      display: block;
+      text-align: left;
+      
+      /* Kunci agar teks tidak keluar */
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
+      max-width: 100%; /* Pastikan tidak melebihi wadah */
+  }
+
+  /* Fix untuk tag pre/code di dalam deskripsi */
+  .challenge-desc pre, .challenge-desc code {
+       white-space: pre-wrap; /* Agar code block panjang turun ke bawah, bukan scroll samping */
+       word-break: break-all;
+       background: rgba(0,0,0,0.3) !important;
+       border: 1px solid rgba(255,255,255,0.1);
+       padding: 10px;
+       border-radius: 5px;
+  }
+
+  /* 4. Tags */
+  .challenge-tag {
+      background-color: rgba(13, 110, 253, 0.2) !important;
+      border: 1px solid rgba(13, 110, 253, 0.5);
+      color: #6ea8fe;
+      padding: 5px 12px;
+      border-radius: 50px;
+      font-size: 0.8rem;
+      margin: 5px;
+      display: inline-block;
+  }
+
+  /* 5. Input Flag & Button */
+  .submit-row {
+      background: rgba(255,255,255,0.02);
+      padding: 20px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .challenge-input {
+      background-color: rgba(0, 0, 0, 0.5) !important;
+      border: 1px solid #444 !important;
+      color: #0d6efd !important; /* Warna teks input biru */
+      font-weight: bold;
+      border-radius: 8px !important;
+      padding: 15px !important;
+      font-family: monospace;
+      font-size: 1.1rem;
+  }
+  
+  .challenge-input::placeholder {
+      color: #666 !important;
+      font-weight: normal;
+  }
+  
+  .challenge-input:focus {
+      background-color: rgba(0,0,0,0.7) !important;
+      border-color: #0d6efd !important;
+      box-shadow: 0 0 15px rgba(13, 110, 253, 0.2) !important;
+  }
+
+  .challenge-submit {
+      background: linear-gradient(135deg, #0d6efd, #0a58ca) !important;
+      border: none !important;
+      color: white !important;
+      border-radius: 8px !important;
+      font-weight: bold;
+      padding: 15px 20px !important;
+      transition: transform 0.1s, box-shadow 0.2s;
+      font-size: 1rem;
+  }
+  
+  .challenge-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(13, 110, 253, 0.4);
+  }
+  
+  .challenge-submit:active {
+      transform: translateY(0);
+  }
+
+  /* 6. File Download Button */
+  .btn-file {
+      background-color: rgba(255,255,255,0.05) !important;
+      border: 1px solid rgba(255,255,255,0.1) !important;
+      color: #aaa !important;
+      border-radius: 8px;
+      padding: 12px;
+      transition: all 0.2s;
+      margin-bottom: 10px;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+  }
+  
+  .btn-file:hover {
+      background-color: rgba(255,255,255,0.1) !important;
+      color: white !important;
+      border-color: #0d6efd !important;
+  }
+
+  /* 7. Close Button */
+  .btn-close-custom {
+      filter: invert(1); /* Biar tombol silang jadi putih */
+      opacity: 0.7;
+      position: absolute;
+      right: 20px;
+      top: 20px;
+  }
+</style>
+
+<div :class="getStyles()" role="document" x-data="Challenge" x-init='id = {{ challenge.id }}; max_attempts = {{ max_attempts }}; attempts = {{ attempts }}; ratingValue = {{ (rating.get('value') if rating else None) | tojson }}; ratingReview = {{ (rating.get('review', '') if rating else None) | tojson }};'>
+  <div class="modal-content">
+    
+    <div class="modal-header-custom position-relative">
+        <button type="button" class="btn-close btn-close-custom" data-bs-dismiss="modal" aria-label="Close"></button>
+        
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <button class="nav-link active findit-challenge-detail" data-bs-target="#challenge" @click="showChallenge()">
+              {% trans %}CHALLENGE{% endtrans %}
+            </button>
+          </li>
+
+          {% block submissions %}
+            {% if Configs.view_self_submissions %}
+            <li class="nav-item">
+              <button class="nav-link challenge-submissions" data-bs-target="#submissions" @click="showSubmissions()">
+                {% if solves != None %}
+                  HISTORY
+                {% endif %}
+              </button>
+            </li>
+            {% endif %}
+          {% endblock %}
+
+          {% block solution %}
+            {% if challenge.solution_id %}
+            <li class="nav-item" x-show="getSolutionId()">
+              <button class="nav-link challenge-solution" data-bs-target="#solution" @click="showSolution()">
+                {% trans %}SOLUTION{% endtrans %}
+              </button>
+            </li>
+            {% endif %}
+          {% endblock %}
+
+          {% block solves %}
+            {% if solves != None %}
+            <li class="nav-item">
+              <button class="nav-link challenge-solves" data-bs-target="#solves" @click="showSolves()">
+                  {{ ngettext("%(num)d Solve", "%(num)d Solves", solves) }}
+              </button>
+            </li>
+            {% endif %}
+          {% endblock %}
+        </ul>
+    </div>
+
+    <div class="modal-body">
+      <div class="tab-content">
+        
+        <div role="tabpanel" class="tab-pane fade show active" id="challenge">
+            <div class="challenge-content-box text-center">
+                
+                <h2 class="challenge-name">{{ challenge.name }}</h2>
+                <h3 class="challenge-value">{{ challenge.value }} Points</h3>
+
+                {% if tags %}
+                  <div class="challenge-tags pb-3">
+                    {% block tags %}
+                      {% for tag in tags %}
+                        <span class="challenge-tag">{{ tag }}</span>
+                      {% endfor %}
+                    {% endblock %}
+                  </div>
+                {% endif %}
+
+                <small class="challenge-attribution text-muted d-block mb-4 border-bottom border-secondary pb-3" style="border-color: rgba(255,255,255,0.1) !important;">
+                    By: {% block attribution %}{{ challenge.byline }}{% endblock %}
+                </small>
+
+                <div class="challenge-desc-wrapper">
+                    <span class="challenge-desc">{% block description %}{{ challenge.html }}{% endblock %}</span>
+                </div>
+
+                {% if challenge.connection_info %}
+                  <div class="mb-4 text-center mt-4">
+                    <h5 class="text-muted mb-2 small uppercase">Connection Info</h5>
+                    <span class="challenge-connection-info p-3 rounded d-block" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(13, 110, 253, 0.3); font-family: monospace; color: #0d6efd; font-size: 1.1rem; word-break: break-all;">
+                      {% block connection_info %}
+                        {% set conn = challenge.connection_info %}
+                        {% if not conn %}
+                        {% elif conn.startswith("http") %}
+                          {{ conn | urlize(target="_blank") }}
+                        {% else %}
+                          <i class="fas fa-terminal me-2"></i> {{ conn }}
+                        {% endif %}
+                      {% endblock %}
+                    </span>
+                  </div>
+                {% endif %}
+
+                {% if hints %}
+                  <div class="challenge-hints hint-row row mb-3 mt-4">
+                    <div class="col-12">
+                    {% for hint in hints | sort(attribute="cost") %}
+                      <div x-data="Hint" x-init="id = {{ hint.id }}" class="mb-2">
+                        {% if hint.content %}
+                        <details class="btn btn-outline-warning w-100 text-start" style="border-radius: 8px; background: rgba(255,193,7,0.05);">
+                          <summary class="text-warning fw-bold p-2">{% trans %}View Hint{% endtrans %}{% if hint.title %}: {{ hint.title }}{% endif %}</summary>
+                          <div class="mt-2 text-white small p-2 border-top border-warning">{{ hint.html | safe }}</div>
+                        </details>
+                        {% else %}
+                        <details @toggle="showHint(event)" class="btn btn-outline-secondary w-100 text-start" style="border-radius: 8px; background: rgba(255,255,255,0.05);">
+                          {% if hint.title %}
+                          <summary class="p-2">{{ hint.title }} (Cost: {{ hint.cost }} pts)</summary>
+                          {% else %}
+                          <summary class="p-2">Unlock Hint for {{ hint.cost }} pts</summary>
+                          {% endif %}
+                          <div x-html="html" class="mt-2 text-white small p-2 border-top border-secondary"></div>
+                        </details>
+                        {% endif %}
+                      </div>
+                    {% endfor %}
+                    </div>
+                  </div>
+                {% endif %}
+
+                {% if files %}
+                  <div class="row challenge-files pb-3 justify-content-center mt-4">
+                    <div class="col-12 mb-2"><h5 class="text-muted small uppercase">Files</h5></div>
+                    {% for file in files %}
+                      <div class="col-md-6 col-sm-12 file-button-wrapper d-block">
+                        {% set segments = file.split('/') %}
+                        {% set token = file.split('?') | last %}
+                        {% if token %}
+                          {% set filename = segments | last | replace("?" + token, "") %}
+                        {% else %}
+                          {% set filename = segments | last %}
+                        {% endif %}
+                        <a class="btn btn-file w-100 text-truncate" href="{{ file }}" title="{{ filename }}">
+                          <i class="fas fa-download me-2 text-info"></i> {{ filename }}
+                        </a>
+                      </div>
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+                <template x-if="max_attempts > 0">
+                  <p class="text-center text-muted small mt-3">
+                    <span x-text="attempts"></span>/<span x-text="max_attempts"></span> attempts
+                  </p>
+                </template>
+
+                <div class="row submit-row mt-5 mx-0">
+                  <div class="col-12 col-sm-8 mb-3 mb-sm-0 px-1">
+                    {% block input %}
+                      <input id="challenge-id" class="challenge-id" type="hidden" value="{{ challenge.id }}">
+                      <input id="challenge-input" class="challenge-input form-control h-100" type="text" name="submission" @keyup.enter="submitChallenge()" placeholder="FindITCTF{flag_here...}" x-model="submission">
+                    {% endblock %}
+                  </div>
+
+                  <div class="col-12 col-sm-4 px-1 key-submit">
+                    {% block submit %}
+                      <button id="challenge-submit" class="challenge-submit w-100 h-100 d-flex align-items-center justify-content-center" type="submit" @click.debounce.500ms="submitChallenge()">
+                        <span>{% trans %}SUBMIT{% endtrans %}</span> <i class="fas fa-paper-plane ms-2"></i>
+                      </button>
+                    {% endblock %}
+                  </div>
+                </div>
+
+                <div class="row notification-row mx-0">
+                  <div class="col-12 px-1">
+                    <template x-if="response">
+                      <div class="alert text-center w-100 mt-3 mb-0"
+                          :class="{
+                            'alert-success': response.data.status == 'correct',
+                            'alert-info': response.data.status == 'already_solved',
+                            'alert-danger': response.data.status == 'incorrect',
+                            'alert-warning': response.data.status == 'paused',
+                          }" role="alert" style="border-radius: 8px; font-weight: bold;">
+                        <strong x-text="response.data.message"></strong>
+                        <div x-show="(response.data.status == 'correct' || response.data.status == 'already_solved')">
+                          <div x-show="getNextId()">
+                            <button @click="nextChallenge()" class="btn btn-info mt-3">Next Challenge <i class="fas fa-arrow-right ms-1"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="submissions">
+            <div class="challenge-content-box">
+                <table class="table table-dark table-striped text-center align-middle" style="background: transparent;">
+                  <thead>
+                  <tr>
+                    <th>Flag</th>
+                    <th>Result</th>
+                    <th>Time</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <template x-for="submission in submissions">
+                    <tr>
+                      <td class="text-truncate" style="max-width: 200px;">
+                         <code x-text="submission.provided" style="color: #ff79c6; background: rgba(0,0,0,0.3); padding: 5px; border-radius: 4px;"></code>
+                      </td>
+                      <td>
+                         <span class="badge" :class="submission.type == 'correct' ? 'bg-success' : 'bg-danger'" x-text="submission.type" style="font-size: 0.9rem; padding: 8px 12px;"></span>
+                      </td>
+                      <td x-text="submission.date" class="small text-muted"></td>
+                    </tr>
+                  </template>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div role="tabpanel" class="tab-pane fade" id="solves">
+            <div class="challenge-content-box">
+                <table class="table table-dark table-striped text-center align-middle" style="background: transparent;">
+                  <thead>
+                  <tr>
+                    <th>User</th>
+                    <th>Time</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <template x-for="solve in solves">
+                    <tr>
+                      <td class="text-start ps-5">
+                        <a :href="solve.account_url" x-text="solve.name" class="text-decoration-none fw-bold text-info fs-5"></a>
+                      </td>
+                      <td x-text="solve.date" class="small text-muted"></td>
+                    </tr>
+                  </template>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div role="tabpanel" class="tab-pane fade" id="solution">
+             <div class="challenge-content-box">
+                 <div class="alert alert-secondary bg-dark border-secondary text-light p-4" style="border-radius: 10px;">
+                    <template x-if="solution">
+                        <div x-html="solution" style="white-space: pre-wrap; font-family: monospace; word-break: break-all;"></div>
+                    </template>
+                 </div>
+             </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

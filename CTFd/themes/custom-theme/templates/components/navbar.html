@@ -1,0 +1,62 @@
+<div class="navbar-brand-custom">
+    <a href="/">
+        <img src="{{ url_for('views.themes', theme='custom-theme', path='img/logo.png') }}" alt="Find IT Logo">
+    </a>
+</div>
+{% if authed() %}
+<div class="fab-container">
+    <div class="fab-menu" id="fabMenu">
+        {% if is_admin() %}
+            <a href="{{ url_for('admin.view') }}"><i class="fas fa-lock"></i> Admin Panel</a>
+            <a href="/settings"><i class="fas fa-user-cog"></i> My Settings</a>
+        {% elif authed() %}
+            <a href="/settings"><i class="fas fa-user-cog"></i> Settings</a>
+        {% endif %}
+
+    </div>
+{% endif %}
+
+{% if authed() %}
+    <button class="fab-main-btn" onclick="toggleFab()">
+        <i class="fas fa-cog" id="fabIcon"></i>
+    </button>
+ {% endif %}
+</div>
+
+
+<nav class="navbar-floating-center">
+    <ul class="nav-links">
+        <li><a href="/challenges">Challenges</a></li>
+        <li><a href="/scoreboard">Scoreboard</a></li>
+        
+        <li class="dropdown-wrapper">
+            <div class="dropdown-layer">
+                <a href="/teams"><i class="fas fa-users"></i> Teams</a>
+                {% if is_admin() %}
+                    <a href="/users"><i class="fas fa-user-shield"></i> Users</a>
+                {% endif %}
+            </div>
+        </li>
+
+        {% if not authed() %}
+            <li><a href="/register">Register</a></li>
+            <li><a href="/login">Login</a></li>
+        {% else %}
+            <li><a href="/profile">Profile</a></li>
+            <li><a href="/logout">Logout</a></li>
+        {% endif %}
+    </ul>
+</nav>
+<script>
+function toggleFab() {
+    const menu = document.getElementById('fabMenu');
+    const icon = document.querySelector('.fab-main-btn i'); // Ambil ikonnya
+    
+    if (menu) {
+        menu.classList.toggle('show');
+    }
+    if (icon) {
+        icon.classList.toggle('rotate'); // Tambahkan efek putar
+    }
+}
+</script>
